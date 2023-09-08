@@ -31,7 +31,7 @@ export default {
             if (this.currentRoom.id) {
                 let vm = this
                 this.getMessages()
-                window.Echo.channel('chat.' + this.currentRoom.id)
+                window.Echo.private('chat.' + this.currentRoom.id)
                     .listen('MessageCreated', e => {
                         vm.getMessages()
                     })
