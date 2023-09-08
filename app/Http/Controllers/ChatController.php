@@ -22,9 +22,9 @@ class ChatController extends Controller
             ->get();
     }
 
-    public function createMessage(Request $request, $roomId): void
+    public function createMessage(Request $request, $roomId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
     {
-        ChatMessage::query()->create([
+        return ChatMessage::query()->create([
             'message' => $request->get('message'),
             'user_id' => Auth::id(),
             'chat_room_id' => $roomId
