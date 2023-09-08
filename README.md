@@ -1,3 +1,3 @@
 ## Laravel Chat
 
-run :  ``` composer install``` & ```npm install```
+run :  ```composer install``` & ```npm install```
