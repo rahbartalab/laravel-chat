@@ -23,9 +23,22 @@ export default {
                     this.chatRooms = response.data
                     this.setRoom(response.data[0])
                 })
+                .catch(error => {
+                    console.log(error)
+                })
         },
         setRoom(room) {
             this.currentRoom = room
+            this.getMessages()
+        },
+        getMessages() {
+            axios.get('/chat/room/' + this.currentRoom.id + '/messages')
+                .then(response => {
+                    this.messages = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
     },
     created() {
@@ -46,7 +59,7 @@ export default {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <MessageContainer/>
-                    <InputMessage/>
+                    <InputMessage :room="currentRoom"/>
                 </div>
             </div>
         </div>
