@@ -18,7 +18,22 @@ export default {
             messages: []
         }
     },
+    watch: {
+        currentRoom() {
+            this.connect()
+        }
+    },
     methods: {
+        connect() {
+            if (this.currentRoom.id) {
+                let vm = this
+                this.getMessages()
+                window.Echo.channel('chat.' + this.currentRoom.id)
+                    .listen('MessageCreated', e => {
+                        vm.getMessages()
+                    })
+            }
+        },
         getRooms() {
             axios.get('/chat/rooms')
                 .then(response => {

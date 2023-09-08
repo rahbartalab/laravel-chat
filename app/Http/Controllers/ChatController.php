@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageCreated;
 use App\Models\ChatMessage;
 use App\Models\ChatRoom;
 use Illuminate\Http\Request;
@@ -22,12 +23,17 @@ class ChatController extends Controller
             ->get();
     }
 
+
     public function createMessage(Request $request, $roomId): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder
     {
-        return ChatMessage::query()->create([
+        /** @var ChatMessage $message */
+
+        $message = ChatMessage::query()->create([
             'message' => $request->get('message'),
             'user_id' => Auth::id(),
             'chat_room_id' => $roomId
         ]);
+        broadcast(new MessageCreated($message))->toOthers();
+        return $message;
     }
 }
