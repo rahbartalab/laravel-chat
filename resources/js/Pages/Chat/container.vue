@@ -2,9 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import MessageContainer from "@/Pages/Chat/MessageContainer.vue";
 import InputMessage from "@/Pages/Chat/inputMessage.vue";
+import ChatRoomSelection from "@/Pages/Chat/chatRoomSelection.vue";
 
 export default {
     components: {
+        ChatRoomSelection,
         AppLayout,
         MessageContainer,
         InputMessage
@@ -51,7 +53,12 @@ export default {
     <AppLayout title="Dashboard">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Chat
+                <ChatRoomSelection
+                    v-if="currentRoom.id"
+                    :chatRooms="chatRooms"
+                    :currentRoom="currentRoom"
+                    v-on:roomChanged="setRoom($event)"
+                />
             </h2>
         </template>
 
